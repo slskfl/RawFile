@@ -1,2 +1,4 @@
+include ':rawtest'
+include ':rawex'
 include ':app'
 rootProject.name = "SimpleDiary"
