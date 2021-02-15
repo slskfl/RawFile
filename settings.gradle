@@ -1,3 +1,5 @@
+include ':sdcarddiary'
+include ':sdcardimgread'
 include ':sdcardex1'
 include ':rawtest'
 include ':rawex'
