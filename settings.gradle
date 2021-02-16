@@ -1,3 +1,4 @@
+include ':sdcardimgcanvas'
 include ':sdcarddiary'
 include ':sdcardimgread'
 include ':sdcardex1'

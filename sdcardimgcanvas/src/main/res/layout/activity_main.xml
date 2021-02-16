@@ -13,13 +13,13 @@
         android:orientation="horizontal">
         <Button
             android:id="@+id/btnPrev"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:text="이전 그림"/>
         <TextView
             android:id="@+id/tvPosition"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textSize="20sp"
@@ -27,18 +27,22 @@
             android:text="1/n"/>
         <Button
             android:id="@+id/btnNext"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="다음 그림"/>
+        <Button
+            android:id="@+id/btnCG"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="다음 그림"/>
+            android:backgroundTint="#883300"
+            android:text="흑백"/>
     </LinearLayout>
-    <LinearLayout
+
+    <com.example.sdcardimgcanvas.MyImageView
+        android:id="@+id/SDimg"
+        android:layout_gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center">
-        <ImageView
-            android:id="@+id/SDimg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
+        android:layout_height="match_parent"/>
 </LinearLayout>

@@ -1,4 +1,4 @@
-package com.example.sdcardimgread;
+package com.example.sdcardimgcanvas;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,6 +8,7 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -23,14 +24,15 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btnPreV, btnNext;
-    ImageView sdImg;
+    Button btnPreV, btnNext, btnCG;
     File imgFile[]; // SD카드에 이미지가 잇는 폴더의 파일을 담을 배열
     String imgName; // 하나의 이미지 이름
     String sdcardPath;// SD카드 경로
     ArrayList<File> imgList; // 파일 중 이미지만 담을 동적 배열
     int position=0; //이미지 배열 인덱스
     TextView tvPosition;
+    MyImageView sdImg;
+    boolean colorOnOff=true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,9 +40,11 @@ public class MainActivity extends AppCompatActivity {
 
         btnPreV=findViewById(R.id.btnPrev);
         btnNext=findViewById(R.id.btnNext);
-        sdImg=findViewById(R.id.SDimg);
         imgList=new ArrayList<File>();
         tvPosition=findViewById(R.id.tvPosition);
+        sdImg=findViewById(R.id.SDimg);
+        btnCG=findViewById(R.id.btnCG);
+
         if(Build.VERSION.SDK_INT>=26){
             int pCheck= ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
             if(pCheck== PackageManager.PERMISSION_DENIED){
@@ -64,7 +68,8 @@ public class MainActivity extends AppCompatActivity {
                 imgName=imgList.get(position).toString();
                 //그래픽 이용
                 Bitmap bm= BitmapFactory.decodeFile(imgName);
-                sdImg.setImageBitmap(bm);
+                sdImg.imgPath=imgName;
+                sdImg.invalidate();//onDraw 메서드 호출
                 tvPosition.setText((position+1)+"/"+imgList.size());
             }
         });
@@ -81,8 +86,27 @@ public class MainActivity extends AppCompatActivity {
                 imgName = imgList.get(position).toString();
                 //그래픽 이용
                 Bitmap bm = BitmapFactory.decodeFile(imgName);
-                sdImg.setImageBitmap(bm);
+                sdImg.imgPath=imgName;
+                sdImg.invalidate();//onDraw 메서드 호출
                 tvPosition.setText((position+1)+"/"+imgList.size());
+            }
+        });
+        //흑백 버튼
+        btnCG.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(colorOnOff==false){
+                    colorOnOff=true;
+                    btnCG.setText("흑백");
+                    btnCG.setBackgroundColor(Color.rgb(153,153,153));
+                    sdImg.satur=1;
+                } else{
+                    colorOnOff=false;
+                    btnCG.setText("칼라");
+                    btnCG.setBackgroundColor(Color.rgb(126,53,193));
+                    sdImg.satur=0;
+                }
+                sdImg.invalidate();
             }
         });
     }
@@ -113,9 +137,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         imgName=imgList.get(position).toString();
-        //그래픽 이용
-        Bitmap bm= BitmapFactory.decodeFile(imgName);
-        sdImg.setImageBitmap(bm);
+        sdImg.imgPath=imgName;
+        sdImg.invalidate();//onDraw 메서드 호출
         tvPosition.setText("1/"+imgList.size());
     }
     //토스트 메서드
